@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  react-app:
+    build:
+      context: ./react-app
+    volumes:
+      - ./react-app:/app
+    ports:
+      - "3000:3000"
+
+  spring-app:
+    image: openjdk:latest
+    working_dir: /app
+    volumes:
+      - ./spring-app:/app
+    ports:
+      - "8080:8080"
+    command: ./mvnw spring-boot:run
+
+  mysql-db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: some_pass
+      MYSQL_DATABASE: dockerdb
+      MYSQL_USER: springuser
+      MYSQL_PASSWORD: springuser
+    ports:
+      - "3306:3306"
